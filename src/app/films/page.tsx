@@ -13,7 +13,7 @@ export default async function Films() {
                     <h4 className="text-center bg-gray-600 p-2 w-full sm:w-auto mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">Episode {film.episode_id}</h4>
                     <Link href={`/films/${film.episode_id}`}>
                         <button>
-                            <Image src='/genericSW.jpg'
+                            <Image src='/StarWarsPortrait.jpeg'
                                 alt='Movie Picture'
                                 width={250}
                                 height={200} />
