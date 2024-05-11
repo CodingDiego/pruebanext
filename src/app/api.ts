@@ -28,7 +28,7 @@ export const fetchCharacters = async (): Promise<Character[]> => {
             });
             return character;
         });
-        return data as Character[];
+        return data satisfies Character[];
     } catch (error) {
         console.error(`Error fetching characters: ${error}`);
         throw error;
