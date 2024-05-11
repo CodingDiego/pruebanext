@@ -19,24 +19,35 @@ export const fetchFilms = async () => {
 
 export const fetchCharacters = async (): Promise<Character[]> => {
     try {
-        const response = await fetch(`${baseUrl}/people`, {
-            method: 'GET',
-        });
-        let data = await response.json();
-        data = data.results.map((character: any) => {
-            Object.keys(character).forEach(key => {
-                if (typeof character[key] === 'string' && (character[key] === 'n/a' || character[key] === null || character[key].toLowerCase() === 'unknown')) {
-                    delete character[key];
-                }
+        let characters: Character[] = [];
+        let page = 1;
+        while (true) {
+            const response = await fetch(`${baseUrl}/people?page=${page}`, {
+                method: 'GET',
             });
-            return character;
-        });
-        return data satisfies Character[];
+            const data = await response.json();
+            const cleanedData = data.results.map((character: any) => {
+                Object.keys(character).forEach(key => {
+                    if (typeof character[key] === 'string' && (character[key] === 'n/a' || character[key] === null || character[key].toLowerCase() === 'unknown')) {
+                        delete character[key];
+                    }
+                });
+                return character;
+            });
+            characters = [...characters, ...cleanedData];
+            if (data.next === null) {
+                break;
+            } else {
+                page++;
+            }
+        }
+        return characters;
     } catch (error) {
         console.error(`Error fetching characters: ${error}`);
         throw error;
     }
 };
+
 
 
 
