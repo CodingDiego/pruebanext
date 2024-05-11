@@ -5,7 +5,7 @@ import { Character } from '../lib/types/character';
 import { PaginationControls } from '../lib/utils/pagination';
 import { URLSearchParams } from 'url';
 
-export default async function Characters({ searchParams }) {
+export default async function Characters({ searchParams }: { searchParams: any }) {
     const data = await fetchCharacters();
 
     const page = searchParams['page'] ?? '1';

@@ -1,5 +1,4 @@
 import { Character } from "./lib/types/character";
-import { Film } from "./lib/types/film";
 
 const baseUrl: string = process.env.BASE_API ?? '';
 
