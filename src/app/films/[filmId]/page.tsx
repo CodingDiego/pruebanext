@@ -12,16 +12,13 @@ export default async function FilmPage({ params }: Readonly<{ params: FilmPagePa
     const characters = await fetchCharacters();
     const film = films[parseInt(params.filmId) - 1];
 
-    const characterNames: string[] = await Promise.all(
-        film.characters.map(async (url: string) => {
-            const id = url.split('/').filter(Boolean).pop();
-            if (id !== undefined) {
-                const characterIndex = parseInt(id) - 1; // Subtract 1 because array indices start at 0
-                return characters[characterIndex].name;
-            }
-            return '';
-        })
-    );
+    // Create an object that maps character IDs to names
+    const characterNames: { [id: string]: string } = {};
+    characters.forEach((character, index) => {
+        let id = index + 1; // Add 1 because API IDs start at 1
+        if (id >= 17) id += 1; // Adjust for missing ID at 17
+        characterNames[id] = character.name;
+    });
 
     return (
         <div className="flex flex-col items-center">
@@ -37,7 +34,7 @@ export default async function FilmPage({ params }: Readonly<{ params: FilmPagePa
                     if (id !== undefined) {
                         return (
                             <Link key={index} href={`/characters/${id}`}>
-                                <button className="underline text-blue-500">{characterNames[index]}</button>
+                                <button className="underline text-blue-500">{characterNames[id]}</button>
                             </Link>
                         );
                     }
