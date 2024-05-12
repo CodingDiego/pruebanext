@@ -33,9 +33,12 @@ export default async function FilmPage({ params }: Readonly<{ params: FilmPagePa
                     const id = character.split('/').filter(Boolean).pop();
                     if (id !== undefined) {
                         return (
-                            <Link key={index} href={`/characters/${id}`}>
-                                <button className="underline text-blue-500">{characterNames[id]}</button>
-                            </Link>
+                            <div key={index} className="flex flex-col items-center text-center my-2">
+                                <Image src='/genericSW.jpg' alt="Generic Image" width={100} height={100} />
+                                <Link href={`/characters/${id}`}>
+                                    <button className="underline text-blue-500">{characterNames[id]}</button>
+                                </Link>
+                            </div>
                         );
                     }
                 })}

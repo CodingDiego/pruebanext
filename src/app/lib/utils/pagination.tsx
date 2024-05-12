@@ -19,7 +19,7 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
 
     const handlePageChange = (newPage: number) => {
         router.push(`/characters/?page=${newPage}&perPage=${perPage}&eyeColor=${eyeColor}&gender=${gender}`)
-        window.scrollTo({ top: 0, behavior: 'smooth' }) // Add this line
+        window.scrollTo({ top: 0, behavior: 'smooth' })
     }
     return (
         <div className="flex gap-2 justify-center items-center">
