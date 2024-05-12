@@ -1,4 +1,4 @@
-import { Character } from "./lib/types/character";
+import { Character } from "../types/character";
 
 const baseUrl: string = process.env.BASE_API ?? '';
 
@@ -16,7 +16,7 @@ export const fetchFilms = async () => {
 };
 
 
-export const fetchCharacters = async (): Promise<Character[]> => {
+export const fetchCharacters = async (key?: keyof Character): Promise<Character[] | any[]> => {
     try {
         let characters: Character[] = [];
         let page = 1;
@@ -40,6 +40,9 @@ export const fetchCharacters = async (): Promise<Character[]> => {
                 page++;
             }
         }
+        if (key) {
+            return characters.map(character => character[key]);
+        }
         return characters;
     } catch (error) {
         console.error(`Error fetching characters: ${error}`);
@@ -47,13 +50,34 @@ export const fetchCharacters = async (): Promise<Character[]> => {
     }
 };
 
+export const fetchNames = async (keys: Array<keyof Character>) => {
+    const data = await Promise.all(keys.map(async (key) => {
+        const response = await fetch(`${baseUrl}/people/${key}`, {
+            method: 'GET'
+        });
+        const character = await response.json();
+        return character.name;
+    }));
+    return data;
+}
+
+
+
 export const characterDetails = async (id: number): Promise<Character> => {
     const response = await fetch(`${baseUrl}/people/${id}`, {
         method: 'GET'
     })
-    const data = await response.json()
-    return data
+    let data = await response.json()
+
+    Object.keys(data).forEach((key) => {
+        if (!data[key] || data[key] === 'n/a' || data[key] === 'unknown') {
+            delete data[key];
+        }
+    });
+
+    return data;
 }
+
 
 
 

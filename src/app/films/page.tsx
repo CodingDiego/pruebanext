@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { fetchFilms } from '../api';
+import { fetchFilms } from '../lib/utils/api';
 import { Film } from '../lib/types/film';
 
 export default async function Films() {

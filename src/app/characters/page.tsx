@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { fetchCharacters } from '../api';
+import { fetchCharacters } from '../lib/utils/api';
 import { Character } from '../lib/types/character';
 import { PaginationControls } from '../lib/utils/pagination';
 
