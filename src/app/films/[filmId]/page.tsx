@@ -12,11 +12,10 @@ export default async function FilmPage({ params }: Readonly<{ params: FilmPagePa
     const characters = await fetchCharacters();
     const film = films[parseInt(params.filmId) - 1];
 
-    // Create an object that maps character IDs to names
     const characterNames: { [id: string]: string } = {};
     characters.forEach((character, index) => {
-        let id = index + 1; // Add 1 because API IDs start at 1
-        if (id >= 17) id += 1; // Adjust for missing ID at 17
+        let id = index + 1;
+        if (id >= 17) id += 1;
         characterNames[id] = character.name;
     });
 
