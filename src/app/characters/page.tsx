@@ -58,7 +58,7 @@ export default async function Characters({ searchParams }: Readonly<{ searchPara
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-start justify-center min-h-3/4 py-4">
                 {entries.map((character: Character, index: number) => (
                     <div key={index} className="m-4 transform transition-transform duration-500 hover:scale-110">
-                        <Link href={`/characters/${character.id !== undefined ? character.id + 1 : ''}`}>
+                        <Link href={`/characters/${character.id !== undefined ? character.id : ''}`}>
                             <button>
                                 <Image
                                     src='/Chewbacca.jpg'
