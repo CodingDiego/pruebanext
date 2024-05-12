@@ -12,13 +12,14 @@ export default async function FilmPage({ params }: Readonly<{ params: FilmPagePa
     const characters = await fetchCharacters();
     const film = films[parseInt(params.filmId) - 1];
 
-    const characterNames: Character[] = await Promise.all(
+    const characterNames: string[] = await Promise.all(
         film.characters.map(async (url: string) => {
             const id = url.split('/').filter(Boolean).pop();
             if (id !== undefined) {
                 const characterIndex = parseInt(id) - 1; // Subtract 1 because array indices start at 0
                 return characters[characterIndex].name;
             }
+            return '';
         })
     );
 

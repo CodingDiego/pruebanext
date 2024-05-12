@@ -25,7 +25,7 @@ export default async function CharacterDetailsPage({ params }: Readonly<{ params
                     {character.hair_color && <h2 className="text-lg">Hair color: {character.hair_color}</h2>}
                     {character.height && <h2 className="text-lg">Character Height: {character.height}</h2>}
                     {character.skin_color && <h2 className="text-lg">Skin Color: {character.skin_color}</h2>}
-                    {character.mass && <h2 className="text-lg">Mass: {character.mass}</h2>}
+                    {character.mass && <h2 className="text-lg">Mass: {character.mass} kg</h2>}
                 </div>
             </div>
         </>
