@@ -14,7 +14,7 @@ export default async function CharacterDetailsPage({ params }: Readonly<{ params
             <h1>Details of the Character {params.characterId}</h1>
             <div className="flex flex-col items-center">
                 <h2>Name:{character.name}</h2>
-                <Image src='/genericDetail.jpeg' alt='Generic'
+                <Image src='/individualSW.jpeg' alt='Generic'
                     height={250}
                     width={250}
                 />
