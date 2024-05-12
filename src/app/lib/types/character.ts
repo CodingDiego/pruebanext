@@ -1,4 +1,5 @@
 export type Character = {
+    id?: number;
     name: string;
     height: string;
     mass: string;

@@ -7,10 +7,15 @@ import { PaginationControls } from '../lib/utils/pagination';
 export default async function Characters({ searchParams }: Readonly<{ searchParams: any }>) {
     const data = await fetchCharacters();
 
+    const dataWithId = data.map((character, index) => ({
+        ...character,
+        id: index + 1
+    }));
+
     const eyeColor = searchParams['eyeColor'];
     const gender = searchParams['gender'];
 
-    let filteredData = data;
+    let filteredData = dataWithId;
     if (eyeColor) {
         filteredData = filteredData.filter(character => character.eye_color === eyeColor);
     }
@@ -25,7 +30,7 @@ export default async function Characters({ searchParams }: Readonly<{ searchPara
 
     const entries = filteredData.slice(start, end)
 
-    const eyeColors = new Set(data.map(character => {
+    const eyeColors = new Set(dataWithId.map(character => {
         if (character.eye_color && character.eye_color !== 'n/a' && character.eye_color !== 'unknown') {
             return character.eye_color;
         }
@@ -51,9 +56,9 @@ export default async function Characters({ searchParams }: Readonly<{ searchPara
             </form>
 
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-start justify-center min-h-3/4 py-4">
-                {entries.map((character: Character, index: number) => (
-                    <div key={index + 1} className="m-4 transform transition-transform duration-500 hover:scale-110">
-                        <Link href={`/characters/${index + 1}`}>
+                {entries.map((character: Character) => (
+                    <div key={character.id} className="m-4 transform transition-transform duration-500 hover:scale-110">
+                        <Link href={`/characters/${character.id}`}>
                             <button>
                                 <Image
                                     src='/Chewbacca.jpg'
