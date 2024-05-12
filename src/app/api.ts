@@ -47,6 +47,13 @@ export const fetchCharacters = async (): Promise<Character[]> => {
     }
 };
 
+export const characterDetails = async (id: number): Promise<Character> => {
+    const response = await fetch(`${baseUrl}/people/${id}`, {
+        method: 'GET'
+    })
+    const data = await response.json()
+    return data
+}
 
 
 

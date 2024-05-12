@@ -3,24 +3,57 @@ import Image from 'next/image';
 import { fetchCharacters } from '../api';
 import { Character } from '../lib/types/character';
 import { PaginationControls } from '../lib/utils/pagination';
-import { URLSearchParams } from 'url';
 
-export default async function Characters({ searchParams }: { searchParams: any }) {
+export default async function Characters({ searchParams }: Readonly<{ searchParams: any }>) {
     const data = await fetchCharacters();
+
+    const eyeColor = searchParams['eyeColor'];
+    const gender = searchParams['gender'];
+
+    let filteredData = data;
+    if (eyeColor) {
+        filteredData = filteredData.filter(character => character.eye_color === eyeColor);
+    }
+    if (gender) {
+        filteredData = filteredData.filter(character => character.gender === gender);
+    }
 
     const page = searchParams['page'] ?? '1';
     const perPage = searchParams['perPage'] ?? '10';
     const start = (Number(page) - 1) * Number(perPage);
     const end = start + Number(perPage);
 
-    const entries = data.slice(start, end)
+    const entries = filteredData.slice(start, end)
 
+    const eyeColors = new Set(data.map(character => {
+        if (character.eye_color && character.eye_color !== 'n/a' && character.eye_color !== 'unknown') {
+            return character.eye_color;
+        }
+    }));
+    console.log(eyeColor)
     return (
         <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 items-center justify-center min-h-screen py-2">
-                {entries.map((character: Character) => (
-                    <div key={character.name} className="m-4 transform transition-transform duration-500 hover:scale-110">
-                        <Link href={`/characters/${character.name}`}>
+            <form className="flex justify-center items-center mb-4">
+                <label htmlFor="eyeColor">Eye Color:</label>
+                <select id="eyeColor" name="eyeColor" className='text-gray-950'>
+                    <option value="">All</option>
+                    {Array.from(eyeColors).filter(Boolean).map(color => (
+                        <option key={color} value={color}>{color}</option>
+                    ))}
+                </select>
+                <label htmlFor="gender">Gender:</label>
+                <select id="gender" name="gender" className='text-black'>
+                    <option value="">All</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-start justify-center min-h-3/4 py-4">
+                {entries.map((character: Character, index: number) => (
+                    <div key={index + 1} className="m-4 transform transition-transform duration-500 hover:scale-110">
+                        <Link href={`/characters/${index + 1}`}>
                             <button>
                                 <Image
                                     src='/Chewbacca.jpg'
@@ -28,7 +61,9 @@ export default async function Characters({ searchParams }: { searchParams: any }
                                     width={200}
                                     height={300} />
                                 <div className="h-12">
-                                    <h1 className="text-xl">{character.name}</h1>
+                                    <h1 className="text-md sm:text-md text-center">Name: {character.name}</h1>
+                                    <h2 className="text-sm sm:text-lg text-center">Eye color: {character.eye_color}</h2>
+                                    {character.gender ? <h3 className="text-sm sm:text-lg text-center">Gender: {character.gender}</h3> : <></>}
                                 </div>
                             </button>
                         </Link>
@@ -37,7 +72,7 @@ export default async function Characters({ searchParams }: { searchParams: any }
             </div>
             <div className='w-full flex justify-center items-center mt-4 justify-self-center'>
                 <PaginationControls
-                    hasNextPage={end < data.length}
+                    hasNextPage={end < filteredData.length}
                     hasPreviousPage={start > 0}
                 />
             </div>
