@@ -14,8 +14,11 @@ export const PaginationControls: FC<PaginationControlsProps> = ({
     const searchParams = useSearchParams()
     const page = searchParams.get('page') ?? '1';
     const perPage = searchParams.get('perPage') ?? '10'
+    const eyeColor = searchParams.get('eyeColor') ?? '';
+    const gender = searchParams.get('gender') ?? '';
+
     const handlePageChange = (newPage: number) => {
-        router.push(`/characters/?page=${newPage}&perPage=${perPage}`)
+        router.push(`/characters/?page=${newPage}&perPage=${perPage}&eyeColor=${eyeColor}&gender=${gender}`)
         window.scrollTo({ top: 0, behavior: 'smooth' }) // Add this line
     }
     return (

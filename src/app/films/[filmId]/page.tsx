@@ -6,7 +6,7 @@ interface FilmPageParams {
     filmId: string;
 }
 
-export default async function FilmPage({ params }: { params: FilmPageParams }) {
+export default async function FilmPage({ params }: Readonly<{ params: FilmPageParams }>) {
     const films = await fetchFilms()
     return (
         <div className="flex flex-col items-center">
