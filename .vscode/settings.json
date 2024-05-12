@@ -13,9 +13,11 @@
         "mostrar",
         "Nombre",
         "Número",
+        "Pelicula",
         "personaje",
         "Personajes",
         "siguiente",
-        "tener"
+        "tener",
+        "Titulo"
     ]
 }
