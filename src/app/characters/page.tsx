@@ -35,7 +35,7 @@ export default async function Characters({ searchParams }: Readonly<{ searchPara
             return character.eye_color;
         }
     }));
-    console.log(eyeColor)
+    
     return (
         <>
             <form className="flex justify-center items-center mb-4">
